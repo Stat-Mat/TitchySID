@@ -2,7 +2,7 @@
 
 Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch (myth)
 
-Caveat: This library has been stripped down to the bare essentials required for SID playback. This means that the code is pretty horrible in places, but the idea is to keep it as small as possible. This does mean the library is not 100% compatible with all SID files, but it does work with large percentage of them. Everything is hard-coded to run at 44100Hz.
+Caveat: This library has been stripped down to the bare essentials required for SID playback. This means that the code is pretty horrible in places, but the idea is to keep it as small as possible. This does mean the library is not 100% compatible with all SID files, but it does work with a large percentage of them. Everything is hard-coded to run at 44100Hz.
 
 ## 1. What is TitchySID? 
 
@@ -54,7 +54,7 @@ Once your application no longer needs the SID playback, the SIDClose() function 
 
 The library can be built with some extra helper functions included, but this does of course increase it's size. The build script (makelib.bat) will build both standard and extras versions of the library automatically in the libs folder.
 
-If you only wish to use the SIDOpen() and SIDClose() functions from above, then you can use titchysid.lib, titchysid.a or titchysid.dll depending on which compiler and language you are using. If however you want to use the extra functions below, then use titchysid_extras.lib, titchysid_extras.a or titchysid_extras.dll. Pre-built versions of both libraries are included in the release package.
+If you only wish to use the SIDOpen() and SIDClose() functions from above, then you can use **titchysid.lib**, **titchysid.a** or **titchysid.dll** depending on which compiler and language you are using. If however you want to use the extra features below, then use **titchysid_extras.lib**, **titchysid_extras.a** or **titchysid_extras.dll**. Pre-built versions of both libraries are included in the release package.
 
 ## 2.3.1 SIDPlay() 
 
@@ -84,7 +84,7 @@ This functions performs a fast fourier transform (FFT) of the current 2048 16-bi
 
 After a successful call to SIDOpen(), the global sid_props structure contains the properties of the loaded SID file. This data can be obtained by calling SIDGetProps(). The structure has the following fields:
  
-`code`
+```
     // The address where the SID data should be placed in the C64's memory
     unsigned short load_addr;
     
@@ -116,7 +116,7 @@ After a successful call to SIDOpen(), the global sid_props structure contains th
 
     // The copyright string
     char copyright[32];
-`code`
+```
  
 ## 3. Credits and Thanks 
 
