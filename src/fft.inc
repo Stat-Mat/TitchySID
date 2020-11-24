@@ -14,7 +14,7 @@ FFT PROTO stdcall :DWORD, :PTR REAL4, :PTR REAL4, :PTR REAL4, :PTR REAL4
 ;===================================================================
 ; AmplitudeSpectrum()
 ;
-; Purpose : This function computes the same as RealFFT, above, but
+; Purpose : This function computes the same as Real FFT, above, but
 ;           adds the squares of the real and imaginary part of each
 ;           coefficient, extracting the amplitude and throwing away
 ;           the phase.

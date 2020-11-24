@@ -16,13 +16,13 @@ OPTION CASEMAP :NONE   ; case sensitive
 .CONST
 
 ; Number of bits needed to store indices (for 1024 samples)
-NUM_BITS    		equ 10
+NUM_BITS        equ 10
 
 ; FFT sizes
-FFT_SIZE	  		equ 2048
-FFT_HALF	  		equ FFT_SIZE/2
+FFT_SIZE        equ 2048
+FFT_HALF        equ FFT_SIZE/2
 
-FFT_DATA_OFFSET	equ 8184
+FFT_DATA_OFFSET equ 8184
 
 .DATA?
 
@@ -35,8 +35,8 @@ gFFTData REAL4 FFT_HALF*5 dup (?)
 .CODE
 
 gFFTBitTableESI:
-	mov esi, OFFSET gFFTBitTable
-	ret
+    mov esi, OFFSET gFFTBitTable
+    ret
 
 ; Complex Fast Fourier Transform
 ; Based on a free FFT routine in C by Don Cross. The basic algorithm
@@ -71,32 +71,33 @@ FFT PROC uses ESI EDI NumSamples:DWORD, \
     LOCAL ai1:REAL8
     LOCAL ai2:REAL8
 
-	call gFFTBitTableESI
-	push esi ; Store OFFSET gFFTBitTable on the stack
+    call gFFTBitTableESI
+    push esi ; Store OFFSET gFFTBitTable on the stack
 
-	; Generate our fast bit LUT for 1024 samples. Once LUT is generated,
-	; gFFTBitTable[1] won't be zero, so allows us to do only once.
+    ; Generate our fast bit LUT for 1024 samples. Once LUT is generated,
+    ; gFFTBitTable[1] won't be zero, so allows us to do only once.
 
-	.IF DWORD PTR [esi+4] == 0 ; gFFTBitTable[1]
+    .IF DWORD PTR [esi+4] == 0 ; gFFTBitTable[1]
 
-		xor edi, edi
+        xor edi, edi
 
-		.REPEAT
+        .REPEAT
 
-			; Reverse the bits
-			xor eax, eax
-			mov edx, edi
-			mov ecx, NUM_BITS
-			@reverse:
-				shr edx, 1
-				rcl eax, 1
-			loop @reverse
+            ; Reverse the bits
+            xor eax, eax
+            mov edx, edi
+            mov ecx, NUM_BITS
             
-			mov DWORD PTR [esi+edi*4], eax
-			inc edi
-		.UNTIL di == FFT_HALF
+            @reverse:
+                shr edx, 1
+                rcl eax, 1
+            loop @reverse
+            
+            mov DWORD PTR [esi+edi*4], eax
+            inc edi
+        .UNTIL di == FFT_HALF
 
-	.ENDIF
+    .ENDIF
 
     mov i, 2
     finit
@@ -107,25 +108,25 @@ FFT PROC uses ESI EDI NumSamples:DWORD, \
 
     ; Do simultaneous data copy and bit-reversal ordering into outputs...
 
-	mov ecx, NumSamples
-	@lut:
+    mov ecx, NumSamples
+    @lut:
 
-	; Reverse the bits quickly using our generated LUT
-	mov eax, [esp] ; OFFSET gFFTBitTable
-	mov eax, DWORD PTR [eax+ecx*4]
-	
-	mov edi, RealOut
-	mov esi, RealIn
-	mov edx, [esi+ecx*4] ; RealIn[i]
-	mov [edi+eax*4], edx ; RealOut[j]
+    ; Reverse the bits quickly using our generated LUT
+    mov eax, [esp] ; OFFSET gFFTBitTable
+    mov eax, DWORD PTR [eax+ecx*4]
+    
+    mov edi, RealOut
+    mov esi, RealIn
+    mov edx, [esi+ecx*4] ; RealIn[i]
+    mov [edi+eax*4], edx ; RealOut[j]
 
-	mov edi, ImagOut
-	mov esi, ImagIn
-	mov edx, [esi+ecx*4] ; ImagIn[i]
-	mov [edi+eax*4], edx ; ImagOut[j]
-	loop @lut
+    mov edi, ImagOut
+    mov esi, ImagIn
+    mov edx, [esi+ecx*4] ; ImagIn[i]
+    mov [edi+eax*4], edx ; ImagOut[j]
+    loop @lut
 
-	pop eax ; Clear OFFSET gFFTBitTable off the stack
+    pop eax ; Clear OFFSET gFFTBitTable off the stack
 
     xor eax, eax
     inc eax
@@ -272,7 +273,7 @@ FFT ENDP
 
 AmplitudeSpectrum PROC uses ESI EDI pIn:PTR REAL4, pOut:PTR REAL4
 
-	LOCAL NumSamples:DWORD
+    LOCAL NumSamples:DWORD
     LOCAL Half:DWORD
     LOCAL i:DWORD
     LOCAL i3:DWORD
@@ -293,26 +294,26 @@ AmplitudeSpectrum PROC uses ESI EDI pIn:PTR REAL4, pOut:PTR REAL4
     LOCAL RealOut:PTR REAL4
     LOCAL ImagOut:PTR REAL4
     LOCAL copyIn:PTR REAL4
-	LOCAL ftHalf: REAL4
+    LOCAL ftHalf: REAL4
     
-	mov ftHalf, 3F000000h ; ftHalf = 0.5
+    mov ftHalf, 3F000000h ; ftHalf = 0.5
     mov NumSamples, FFT_SIZE
     mov eax, FFT_HALF
     mov Half, eax
     shl eax, 2 ; FFT_HALF x 4
 
-	call gFFTBitTableESI
-	add esi,FFT_DATA_OFFSET
+    call gFFTBitTableESI
+    add esi,FFT_DATA_OFFSET
 
-	lea edx, copyIn ; Remember, local vars are below EBP, so start at last var
-	xor ecx, ecx
-	
-	; Setup the tmpReal, tmpImag, RealOut, ImagOut and copyIn pointers
-	.REPEAT
-		mov REAL4 PTR [edx+ecx*4], esi
-		add esi, eax
-		inc ecx
-	.UNTIL cl == 5
+    lea edx, copyIn ; Remember, local vars are below EBP, so start at last var
+    xor ecx, ecx
+    
+    ; Setup the tmpReal, tmpImag, RealOut, ImagOut and copyIn pointers
+    .REPEAT
+        mov REAL4 PTR [edx+ecx*4], esi
+        add esi, eax
+        inc ecx
+    .UNTIL cl == 5
 
     finit
     fldpi
@@ -325,42 +326,42 @@ AmplitudeSpectrum PROC uses ESI EDI pIn:PTR REAL4, pOut:PTR REAL4
     mov edx, NumSamples
     dec edx
 
-	mov ecx, NumSamples
-	@process:
+    mov ecx, NumSamples
+    @process:
 
-		; Normalize 16-bit sample into the range -1 to 1
-		mov eax, REAL4 PTR [esi+ecx*4] ; pIn[i]
-		mov wtemp, eax
-		fld wtemp
-		mov i, 32768
-		fild i
-		fdiv
+        ; Normalize 16-bit sample into the range -1 to 1
+        mov eax, REAL4 PTR [esi+ecx*4] ; pIn[i]
+        mov wtemp, eax
+        fld wtemp
+        mov i, 32768
+        fild i
+        fdiv
         
-		; Double sample to account for FFT mirroring
-		mov i, 2
-		fild i
-		fmul
-		fild Half
-		fdiv
+        ; Double sample to account for FFT mirroring
+        mov i, 2
+        fild i
+        fmul
+        fild Half
+        fdiv
         
-		; Apply Hann window to sample
-		fldpi
-		fild i
-		fmul
-		mov i, ecx
-		fild i
-		fmul
-		mov i, edx ; edx = NumSamples-1
-		fild i
-		fdiv
-		fcos
-		fld ftHalf
-		fmul
-		fld ftHalf
-		fsub
-		fmul
-		fstp REAL4 PTR [edi+ecx*4] ; copyIn[i]
-	loop @process
+        ; Apply Hann window to sample
+        fldpi
+        fild i
+        fmul
+        mov i, ecx
+        fild i
+        fmul
+        mov i, edx ; edx = NumSamples-1
+        fild i
+        fdiv
+        fcos
+        fld ftHalf
+        fmul
+        fld ftHalf
+        fsub
+        fmul
+        fstp REAL4 PTR [edi+ecx*4] ; copyIn[i]
+    loop @process
 
     mov esi, copyIn
     mov i, 0
@@ -594,11 +595,11 @@ AmplitudeSpectrum PROC uses ESI EDI pIn:PTR REAL4, pOut:PTR REAL4
 
     ; Convert from power spectrum to amplitude spectrum (magnitude)
     @ampspec:
-		dec ecx
+        dec ecx
         fld REAL4 PTR [eax+ecx*4] ; pOut[i]
         fsqrt
         fstp REAL4 PTR [eax+ecx*4] ; pOut[i]
-	jnz @ampspec
+    jnz @ampspec
   
     ret
 AmplitudeSpectrum ENDP

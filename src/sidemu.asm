@@ -974,7 +974,7 @@ set_put_get_addr:
             add cx,ax
         .ENDIF
 
-        ; zp, zpx and zpy
+    ; zp, zpx and zpy
     .ELSEIF edi <= zpy
 
         .IF !DWORD PTR [esp+14] ; is_not_set
@@ -1742,6 +1742,7 @@ MNNDX3:
         push FLAG_V
         call setflags
 
+    ; No OPeration, so nothing to do! :p
     ;.ELSEIF edi == _nop
 
     .ENDIF
