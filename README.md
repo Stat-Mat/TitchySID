@@ -2,7 +2,7 @@
 
 Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch (myth)
 
-Caveat: This library has been stripped down to the bare essentials required for SID playback. This means that the code is pretty horrible in places, but the idea is to keep it as small as possible. This does mean the library is not 100% compatible with all SID files, but it does work with a large percentage of them. Everything is hard-coded to run at 44100Hz.
+Caveat: this library has been stripped down to the bare essentials required for SID playback. This means that the code is pretty horrible in places, but the idea is to keep it as small as possible. This does mean the library is not 100% compatible with all SID files, but it does work with a large percentage of them. Everything is hard-coded to run at 44100Hz.
 
 ## 1. What is TitchySID? 
 
@@ -16,19 +16,19 @@ TitchySID is a library written in MASM32 which can play [SID](https://en.wikiped
 
 The release package contains the full source code for both the library and two demo projects (one for C# and another C project for Visual C++). This should enable most developers to understand how to use the library. Further samples for MASM32, MinGW, BlitzMax, FreeBASIC and PureBasic will be released shortly.
 
-Note: In order to use the static library within your project, you must include winmm.lib for the neccessary Windows multimedia API sound functions.
+Note: in order to use the static library within your project, you must include winmm.lib for the neccessary Windows multimedia API sound functions.
  
-The library consists of several simple functions *(see titchysid.inc/.h/.cs)*. The basic process requires the developer to first instantiate the library with the *SIDOpen()* function in order to start playing SID tunes. Then, once the application no longer needs playback, it uses the *SIDClose()* function.
+The library consists of several simple functions **(see titchysid.inc/.h/.cs)**. The basic process requires the developer to first instantiate the library with the **SIDOpen()** function in order to start playing SID tunes. Then, once the application no longer needs playback, it uses the **SIDClose()** function.
 
 ## 2.1 SIDOpen() 
 
-This function opens up the library for SID playback and starts playing immediately. Here are examples of the two ways in which the *SIDOpen()* function is called:
+This function opens up the library for SID playback and starts playing immediately. Here are examples of the two ways in which the **SIDOpen()** function is called:
  
-*SIDOpen (res_id, 0, SID_RESOURCE, SID_DEFAULT, subsong);*
+**SIDOpen (res_id, 0, SID_RESOURCE, SID_DEFAULT, subsong);**
  
 or
  
-*SIDOpen (mem, mem_len, SID_MEMORY, SID_DEFAULT, subsong);*
+**SIDOpen (mem, mem_len, SID_MEMORY, SID_DEFAULT, subsong);**
  
 The first demonstrates how to load a PSID file from a binary resource contained within the executable. The second shows the caller passing in a block of memory that contains the PSID file data.
  
@@ -44,29 +44,29 @@ The parameter breakdown is as follows:
     
 * The fifth parameter is the sub song that the caller wishes to be played first. If the previous parameter is set to SID_DEFAULT, this parameter is ignored. It has a valid range of 0-255, as PSID files can contain a maximum of 256 sub songs.
 
-The *SIDopen()* function has a non-zero return value on success and zero on failure.
+The **SIDopen()** function has a non-zero return value on success and zero on failure.
 
 ## 2.2 SIDClose() 
 
-Once your application no longer needs the SID playback, the *SIDClose()* function must be called. A good example of when to do this is inside your WM_CLOSE handler. The function does not require any parameters.
+Once your application no longer needs the SID playback, the **SIDClose()** function must be called. A good example of when to do this is inside your WM_CLOSE handler. The function does not require any parameters.
  
 ## 2.3 Extras 
 
-The library can be built with some extra features included, but this does of course increase it's size. The build script *(makelib.bat)* will build both standard and extras versions of the library automatically in the libs folder.
+The library can be built with some extra features included, but this does of course increase it's size. The build script **(makelib.bat)** will build both standard and extras versions of the library automatically in the libs folder.
 
-If you only wish to use the *SIDOpen()* and *SIDClose()* functions from above, then you can use **titchysid.lib**, **titchysid.a** or **titchysid.dll** depending on which compiler and language you are using. If however you want to use the extra features below, then use **titchysid_extras.lib**, **titchysid_extras.a** or **titchysid_extras.dll**. Pre-built versions of both libraries are included in the release package.
+If you only wish to use the **SIDOpen()** and **SIDClose()** functions from above, then you can use **titchysid.lib**, **titchysid.a** or **titchysid.dll** depending on which compiler and language you are using. If however you want to use the extra features below, then use **titchysid_extras.lib**, **titchysid_extras.a** or **titchysid_extras.dll**. Pre-built versions of both libraries are included in the release package.
 
 ## 2.3.1 SIDPlay() 
 
-This function allows the caller to start playing the current sub song. It has no parameters, and simply plays the last selected sub song (from the beginning) before being stopped (see *SIDStop()* below).
+This function allows the caller to start playing the current sub song. It has no parameters, and simply plays the last selected sub song (from the beginning) before being stopped (see **SIDStop()** below).
 
 ## 2.3.2 SIDStop() 
 
-This function allows the caller to stop playing the current sub song. It has no parameters, and simply stops the SID playback. It does not unload the previously loaded SID file such that the caller may use the *SIDPlay()* function above to start playing again.
+This function allows the caller to stop playing the current sub song. It has no parameters, and simply stops the SID playback. It does not unload the previously loaded SID file such that the caller may use the **SIDPlay()** function above to start playing again.
 
 ## 2.3.3 SIDPause() 
 
-This function allows the caller to pause the playback of the currently playing sub song. It has no parameters. The caller can then resume the playback from the same point when desired (see *SIDResume()* below).
+This function allows the caller to pause the playback of the currently playing sub song. It has no parameters. The caller can then resume the playback from the same point when desired (see **SIDResume()** below).
 
 ## 2.3.4 SIDResume() 
 
@@ -74,7 +74,7 @@ This function allows the caller to resume the playback of the current sub song. 
 
 ## 2.3.5 SIDChangeSong() 
 
-This function allows the caller to change to another sub song within the SID file. It has one parameter which determines which sub song to play. This parameter has a valid range of 0-255 just like *SIDOpen()*.
+This function allows the caller to change to another sub song within the SID file. It has one parameter which determines which sub song to play. This parameter has a valid range of 0-255 just like **SIDOpen()**.
 
 ## 2.3.6 SIDGetFFTData() 
 
@@ -82,7 +82,7 @@ This function performs a fast fourier transform (FFT) of the current 2048 16-bit
 
 ## 2.3.7 SIDGetProps()
 
-After a successful call to *SIDOpen()*, the global sid_props structure contains the properties of the loaded SID file. This data can be obtained by calling *SIDGetProps()*. The structure has the following fields:
+After a successful call to **SIDOpen()**, the global sid_props structure contains the properties of the loaded SID file. This data can be obtained by calling **SIDGetProps()**. The structure has the following fields:
  
 ```
     // The address where the SID data should be placed in the C64's memory
