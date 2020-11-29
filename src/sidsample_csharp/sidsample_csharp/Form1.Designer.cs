@@ -229,6 +229,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "IDD_SID_PLAYER_DLG";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TitchySID Library Demo (C# version)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.IDD_SID_PLAYER_DLG_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.IDD_SID_PLAYER_DLG_FormClosed);

@@ -19,15 +19,30 @@
 #define IDC_SUBSONG_STATIC              1012
 #define IDC_INFO_STATIC                 1013
 
-// Next default values for new objects
-//
-#ifdef APSTUDIO_INVOKED
-#ifndef APSTUDIO_READONLY_SYMBOLS
+// Have the needed Windows defines here so that we don't need to include
+// another header from elsewhere (i.e. Visual Studio, MASM32 etc)
 
-#define _APS_NO_MFC					130
-#define _APS_NEXT_RESOURCE_VALUE	129
-#define _APS_NEXT_COMMAND_VALUE		32771
-#define _APS_NEXT_CONTROL_VALUE		1000
-#define _APS_NEXT_SYMED_VALUE		110
-#endif
-#endif
+/* Window Styles */
+
+#define WS_POPUP 0x80000000L
+#define WS_VISIBLE 0x10000000L
+#define WS_CAPTION 0x00C00000L
+#define WS_SYSMENU 0x00080000L
+#define WS_MINIMIZEBOX 0x00020000L
+
+/* Extended Window Styles */
+
+#define WS_EX_STATICEDGE 0x00020000L
+
+/* Dialog Styles */
+
+#define DS_SETFONT 0x40L
+#define DS_CENTER 0x0800L
+
+/* Button Control Styles */
+
+#define BS_CENTER 0x00000300L
+
+/* Static Control Constants */
+
+#define SS_BITMAP 0x0000000EL

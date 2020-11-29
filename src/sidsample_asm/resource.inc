@@ -1,0 +1,16 @@
+IDI_ICON                    equ 101
+IDD_SID_PLAYER_DLG          equ 102
+IDR_MUSIC                   equ 103
+IDC_EXIT                    equ 1001
+IDC_INFO_LABELS             equ 1002
+IDC_INFO                    equ 1003
+IDC_OPEN                    equ 1004
+IDC_NEXT                    equ 1005
+IDC_PREVIOUS                equ 1006
+IDC_PAUSE_RESUME            equ 1007
+IDC_STOP                    equ 1008
+IDC_PLAY                    equ 1009
+IDC_SONG_NUM                equ 1010
+IDC_SPEC                    equ 1011
+IDC_SUBSONG_STATIC          equ 1012
+IDC_INFO_STATIC             equ 1013

@@ -1,5 +1,5 @@
 ;===================================================================
-; TitchySID v1.4 by StatMat - November 2020
+; TitchySID v1.5 by StatMat - November 2020
 ;
 ; Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch (myth)
 ;
@@ -156,7 +156,7 @@ GenSamples PROC uses ESI EDI
             ; Find out if CIA timing is used and how many samples
             ; have to be calculated for each cpuJSR
             xor ecx,ecx
-            movzx eax, WORD PTR [memory+0dc04h]
+            movzx eax, WORD PTR [c64_memory+0dc04h]
             mov cx, 20000
             mul ecx
             xor edx,edx
@@ -484,8 +484,8 @@ SIDOpen PROC uses ESI EDI sid:DWORD, sidlen:DWORD, mode:BYTE, options:BYTE, subs
     
     ; Calc dest
     movzx edi,WORD PTR [edi-LOAD_ADDR] ; sid_props.load_addr
-    mov eax,OFFSET memory
-    push eax ; store memory offset for use later
+    mov eax,OFFSET c64_memory
+    push eax ; store C64 memory offset for use later
     add edi,eax
 
     ; Copy the SID data to the C64 memory
@@ -494,37 +494,37 @@ SIDOpen PROC uses ESI EDI sid:DWORD, sidlen:DWORD, mode:BYTE, options:BYTE, subs
 IFDEF SID_EXTRAS
     
     ; Take a copy of the C64 memory
-    mov esi,[esp] ; OFFSET memory
+    mov esi,[esp] ; esi = OFFSET c64_memory
     mov edi,esi
     not cx
     inc ecx ; ecx = 65536 (was already zero after rep movsb above)
-    add edi,ecx ; OFFSET memory_copy
+    add edi,ecx ; edi = OFFSET c64_memory_copy
     shr ecx,2 ; ecx = 16384
     rep movsd
 
 ENDIF ; SID_EXTRAS
 
-    pop esi ; OFFSET memory
-    mov edi,[esp+4] ; OFFSET hThread
-    sub edi,LOAD_ADDR ; edi = OFFSET hThread
+    pop esi ; esi = OFFSET c64_memory
+    mov edi,[esp+4] ; edi = OFFSET hThread
  
-    .IF WORD PTR [edi-PLAY_ADDR] == 0 ; play_addr
-        push DWORD PTR [edi-INIT_ADDR] ; init_addr + play_addr
+    .IF WORD PTR [edi-PLAY_ADDR] == 0 ; props.play_addr
+        push DWORD PTR [edi-INIT_ADDR] ; props.init_addr
         call cpuJSR
 
-        movzx eax,WORD PTR [esi+314h] ; memory+314h
-        mov WORD PTR [edi-PLAY_ADDR],ax ; play_addr
+        movzx eax,WORD PTR [esi+314h] ; c64_memory+314h - address of interrupt service routine (raster IRQ)
+        mov WORD PTR [edi-PLAY_ADDR],ax ; props.play_addr
     .ENDIF
 
     pop esi ; sid_file
 
 IFDEF SID_EXTRAS
 
-    ; Copy name, author and copyright strings to sidprops struct
+    sub edi,SID_NAME ; edi = props.sid_name
+
+    ; Copy name, author and copyright strings to the sid_props struct
     push 24 ; 24 dwords, 96 bytes
     pop ecx
     add esi,16h ; skip to name field in sid file data
-    add edi,0ch ; skip to name string in sidprops struct
     rep movsd
 
 ENDIF

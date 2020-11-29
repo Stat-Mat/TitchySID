@@ -45,10 +45,11 @@ DWORD mmtimer = 0;
 BITMAPINFO256 bmi;
 BYTE specbuf[SPECWIDTH * SPECHEIGHT];
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
-	_In_opt_ HINSTANCE hPrevInstance,
-	_In_ LPWSTR    lpCmdLine,
-	_In_ int       nCmdShow) {
+int WINAPI WinMain(HINSTANCE hInstance,
+                    HINSTANCE hPrevInstance,
+                    LPSTR lpCmdLine,
+                    int nCmdShow)
+{
 	g_hInst = hInstance;
 
 	DialogBoxParam(hInstance, MAKEINTRESOURCE(IDD_SID_PLAYER_DLG), 0, WndProc, 0);

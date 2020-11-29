@@ -2,7 +2,7 @@
 
 Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch (myth)
 
-Caveat: this library has been stripped down to the bare essentials required for SID playback. This means that the code is pretty horrible in places, but the idea is to keep it as small as possible. This does mean the library is not 100% compatible with all SID files, but it does work with a large percentage of them. Everything is hard-coded to run at 44100Hz.
+Caveat: this library has been stripped down to the bare essentials required for SID playback. This means that the code is pretty difficult to understand in places, but the idea is to keep it as small as possible. This does mean the library is not 100% compatible with all SID files, but it does work with a large percentage of them. Everything is hard-coded to run at 44100Hz.
 
 ## 1. What is TitchySID? 
 
@@ -14,11 +14,13 @@ TitchySID is a library written in MASM32 which can play [SID](https://en.wikiped
  
 ## 2. Usage 
 
-The release package contains the full source code for both the library and two demo projects (one for C# and another C project for Visual C++). This should enable most developers to understand how to use the library. Further samples for MASM32, MinGW, BlitzMax, FreeBASIC and PureBasic will be released shortly.
+The release package contains the full source code for both the library and several demo projects for the following environments: MASM32, C#, C for Visual C++, C for MinGW, BlitzMax, BlitzMax NG, FreeBASIC and PureBasic. This should enable most developers to understand how to use the library.
+
+The library currently only supports 32-bit builds, as the work to port the MASM32 code to 64-bit will be quite extensive. However, support for 64-bit should be added in the future.
 
 Note: in order to use the static library within your project, you must include winmm.lib for the neccessary Windows multimedia API sound functions.
  
-The library consists of several simple functions **(see titchysid.inc/.h/.cs)**. The basic process requires the developer to first instantiate the library with the **SIDOpen()** function in order to start playing SID tunes. Then, once the application no longer needs playback, it uses the **SIDClose()** function.
+The library consists of several simple functions **(see the appropriate titchysid.inc/.h/.cs/.bmx/.bi/.pbi in the sample project of your choice for more details)**. The basic process requires the developer to first instantiate the library with the **SIDOpen()** function in order to start playing SID tunes. Then, once the application no longer needs playback, it should use the **SIDClose()** function.
 
 ## 2.1 SIDOpen() 
 

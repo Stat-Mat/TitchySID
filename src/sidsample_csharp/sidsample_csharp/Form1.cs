@@ -19,6 +19,9 @@ namespace sidsample_csharp {
         [DllImport("User32.dll")]
         private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
+        const string PauseText = "Pause";
+        const string ResumeText = "Resume";
+
         const int SPECWIDTH = 368;	// display width
         const int SPECHEIGHT = 127;	// height (changing requires palette adjustments too)
         const int BANDS = 28;		// number of equalizer bars
@@ -29,7 +32,7 @@ namespace sidsample_csharp {
 
         titchysid.sid_props sid_props = new titchysid.sid_props();
 
-        MultimediaTimer timer;
+        MultimediaTimer mmtimer;
 
         Bitmap specbmp;
         Bitmap specbmp2;
@@ -46,10 +49,9 @@ namespace sidsample_csharp {
 
             // Start the SID music playing from our resource
             rc = titchysid.SIDOpen(Resources.music, (uint)Resources.music.Length, titchysid.SID_MEMORY, titchysid.SID_DEFAULT, 0);
+            titchysid.GetSIDProps(ref sid_props);
 
             g_running = true;
-
-            titchysid.GetSIDProps(ref sid_props);
             g_subsong = sid_props.default_song;
             UpdateSIDInfo();
 
@@ -76,12 +78,12 @@ namespace sidsample_csharp {
             IDC_SPEC.Image = specbmp2;
 
             // setup spectrum update timer (50hz)
-            timer = new MultimediaTimer() {
+            mmtimer = new MultimediaTimer() {
                 Interval = 1000 / 50
             };
 
-            timer.Elapsed += UpdateSpectrum;
-            timer.Start();
+            mmtimer.Elapsed += UpdateSpectrum;
+            mmtimer.Start();
 
             IDC_INFO_LABELS.MouseDown += new MouseEventHandler(IDD_SID_PLAYER_DLG_MouseDown);
             IDC_INFO.MouseDown += new MouseEventHandler(IDD_SID_PLAYER_DLG_MouseDown);
@@ -110,7 +112,7 @@ namespace sidsample_csharp {
                     titchysid.SIDResume();
                 }
 
-                IDC_PAUSE_RESUME.Text = g_paused ? "Resume" : "Pause";
+                IDC_PAUSE_RESUME.Text = g_paused ? ResumeText : PauseText;
             }
         }
 
@@ -154,12 +156,14 @@ namespace sidsample_csharp {
 
                     // Start the SID playing 
                     titchysid.SIDOpen(data, len, titchysid.SID_MEMORY, titchysid.SID_DEFAULT, 0);
-
                     titchysid.GetSIDProps(ref sid_props);
+
+                    g_paused = false;
+                    g_running = true;
                     g_subsong = sid_props.default_song;
                     UpdateSIDInfo();
 
-                    g_running = true;
+                    IDC_PAUSE_RESUME.Text = PauseText;
                 }
             }
         }
@@ -190,11 +194,8 @@ namespace sidsample_csharp {
             int i, j;
 
             for (i = 0; i < height; i++) {
-                for (j = 0; j < (SPECWIDTH / BANDS) - 2; j++) {
-                    specbuf[(y * SPECWIDTH) + (x * (SPECWIDTH / BANDS) + j) + 3] = (byte)(y + 1);
-                    specbuf[((y + 1) * SPECWIDTH) + (x * (SPECWIDTH / BANDS) + j) + 3] = (byte)(y + 1);
-                    specbuf[((y + 2) * SPECWIDTH) + (x * (SPECWIDTH / BANDS) + j) + 3] = (byte)(y + 1);
-                    specbuf[((y + 3) * SPECWIDTH) + (x * (SPECWIDTH / BANDS) + j) + 3] = (byte)(y + 1);
+                for(j = 0; j < (SPECWIDTH / BANDS) - 2; j++) {
+                    specbuf[((y + i) * SPECWIDTH + x * (int)(SPECWIDTH / BANDS)) + (j + 3)] = (byte)(y + 1);
                 }
             }
         }
@@ -278,12 +279,16 @@ namespace sidsample_csharp {
         }
 
         private void IDD_SID_PLAYER_DLG_FormClosing(object sender, FormClosingEventArgs e) {
-            timer.Stop();
+            // Stop the spectrum timer
+            mmtimer.Stop();
+
+            // Close the SID library
             titchysid.SIDClose();
         }
 
         private void IDD_SID_PLAYER_DLG_FormClosed(object sender, FormClosedEventArgs e) {
-            timer.Dispose();
+            // Kill the spectrum timer
+            mmtimer.Dispose();
         }
     }
 }

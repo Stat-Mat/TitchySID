@@ -1,0 +1,45 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON                ICON                    "icon.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RCDATA
+//
+
+IDR_MUSIC               RCDATA                  "music.sid"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_SID_PLAYER_DLG DIALOGEX 0, 0, 333, 175
+STYLE DS_SETFONT | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CAPTION "TitchySID Library Demo (BlitzMax version)"
+FONT 8, "Arial", 400, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Exit", IDC_EXIT, 278, 11, 33, 11
+    LTEXT           "Load addr:\nInit addr:\nPlay addr:\nData size:\nNum songs:\nDefault song:\nName:\nAuthor:\nCopyright:", IDC_INFO_LABELS, 10, 8, 46, 73
+    LTEXT           "$0000\n$0000\n$0000\n0\n0\n0\nUnknown\nUnknown\nUnknown", IDC_INFO, 59, 8, 152, 72
+    DEFPUSHBUTTON   "Open", IDC_OPEN, 240, 11, 33, 11
+    PUSHBUTTON      "Next", IDC_NEXT, 289, 64, 33, 11
+    PUSHBUTTON      "Previous", IDC_PREVIOUS, 226, 64, 33, 11
+    PUSHBUTTON      "Pause", IDC_PAUSE_RESUME, 258, 34, 33, 11
+    PUSHBUTTON      "Stop", IDC_STOP, 293, 34, 33, 11
+    PUSHBUTTON      "Play", IDC_PLAY, 222, 34, 33, 11
+    CTEXT           "Song", IDC_SONG_NUM, 265, 64, 19, 10, 0, WS_EX_STATICEDGE
+    GROUPBOX        "Subsong", IDC_SUBSONG_STATIC, 222, 51, 104, 31, BS_CENTER
+    CONTROL         "", IDC_SPEC, "Static", SS_BITMAP, 42, 92, 19, 15
+    GROUPBOX        "", IDC_INFO_STATIC, 7, 3, 206, 79
+END

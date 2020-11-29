@@ -47,7 +47,7 @@ namespace titchysid_container {
                   SID_NON_DEFAULT flag instead.
 
          Returns non-zero on success
-        ===================================================================
+        ====================================================================
         */
 
         [DllImport(dllName, CharSet = CharSet.Ansi)]

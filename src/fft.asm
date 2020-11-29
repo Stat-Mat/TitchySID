@@ -1,5 +1,5 @@
 ;===================================================================
-; TitchySID v1.4 by StatMat - November 2020
+; TitchySID v1.5 by StatMat - November 2020
 ;
 ; Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch (myth)
 ;

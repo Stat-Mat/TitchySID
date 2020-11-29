@@ -260,12 +260,12 @@ p BYTE ?    ; 6
 s BYTE ?    ; 7
 pc WORD ?   ; 8
 
-memory BYTE 65536 dup (?) ; 10
-PUBLIC memory
+c64_memory BYTE 65536 dup (?) ; 10
+PUBLIC c64_memory
 
 data_end = $
 
-memory_copy BYTE 65536 dup (?)
+c64_memory_copy BYTE 65536 dup (?)
 
 .DATA
 

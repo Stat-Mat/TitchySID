@@ -387,3 +387,6 @@ $RECYCLE.BIN/
 
 [Ll]ib/
 !/releases
+
+# BlitzMax object files folder
+.bmx/

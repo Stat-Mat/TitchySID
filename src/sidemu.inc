@@ -1,7 +1,7 @@
 ;===================================================================
-; TitchySID v1.4 by StatMat - November 2020
+; TitchySID v1.5 by StatMat - November 2020
 ;
-; Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch
+; Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch (myth)
 ;
 ; Caveat: This library has been stripped down to the bare essentials
 ; required for SID playback. This means that the code is pretty
@@ -11,4 +11,4 @@
 
 synth_render PROTO :PTR SWORD, :DWORD
 
-EXTERNDEF memory :BYTE
+EXTERNDEF c64_memory :DWORD

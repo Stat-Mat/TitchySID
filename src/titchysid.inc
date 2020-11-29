@@ -1,7 +1,7 @@
 ;===================================================================
-; TitchySID v1.4 by StatMat - November 2020
+; TitchySID v1.5 by StatMat - November 2020
 ;
-; Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch
+; Based on TinySID by Tammo Hinrichs (kb) and Rainer Sinsch (myth)
 ;
 ; Caveat: This library has been stripped down to the bare essentials
 ; required for SID playback. This means that the code is pretty
@@ -49,7 +49,7 @@ SID_NON_DEFAULT    equ 2
 ;          then you should use the SID_NON_DEFAULT flag instead.
 ;
 ; Returns non-zero on success
-;===================================================================
+;====================================================================
 
 SIDOpen PROTO stdcall :DWORD, :DWORD, :BYTE, :BYTE, :BYTE
 
