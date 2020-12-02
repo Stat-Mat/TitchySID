@@ -10,9 +10,9 @@ set MASM_HOME=c:\masm32
 
 md Release >nul 2>&1
 
-:: *****************************************************
-:: *** Compile the RC file to create the object file ***
-:: *****************************************************
+:: **************************************************
+:: *** Compile the RC file to create the RES file ***
+:: **************************************************
 
 "%MASM_HOME%\bin\rc" sidsample.rc
 

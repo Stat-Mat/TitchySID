@@ -107,8 +107,8 @@ Function OpenSID()
     filter = "SID Files:sid"
     filename = RequestFile("Choose SID File", filter)
 
-    If filename$
-        memory = LoadBank(filename$)
+    If filename
+        memory = LoadBank(filename)
         length = memory.Size()
         filebuffer = LockBank(memory)
 

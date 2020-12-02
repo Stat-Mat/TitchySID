@@ -141,7 +141,7 @@ Import "..\lib\titchysid_extras.lib"
     ; SIDChangeSong()
     ;
     ; Purpose : Change to another sub song in the currently playing SID
-    ;		        file
+    ;                file
     ;
     ;  Parameter : New subsong ID
     ;===================================================================

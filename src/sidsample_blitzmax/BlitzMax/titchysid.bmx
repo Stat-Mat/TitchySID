@@ -139,7 +139,7 @@ Extern "win32"
     ' SIDChangeSong()
     '
     ' Purpose : Change to another sub song in the currently playing SID
-    '		        file
+    '                file
     '
     '  Parameter : New subsong ID
     '===================================================================

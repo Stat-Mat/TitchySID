@@ -219,7 +219,7 @@ WndProc PROC USES esi hWnd:HWND, message:DWORD, wParam:DWORD, lParam:DWORD
         .ELSEIF wParam == IDC_PLAY
                 
             ; Start the SID music playing
-  			.IF !g_paused && !g_running
+            .IF !g_paused && !g_running
                 call SIDPlay
                 mov g_running, 1
             .ENDIF
@@ -227,7 +227,7 @@ WndProc PROC USES esi hWnd:HWND, message:DWORD, wParam:DWORD, lParam:DWORD
         .ELSEIF wParam == IDC_STOP
 
             ; Stop the SID music playing
-  			.IF !g_paused && g_running
+            .IF !g_paused && g_running
                 call SIDStop
                 mov g_running, 0
             .ENDIF

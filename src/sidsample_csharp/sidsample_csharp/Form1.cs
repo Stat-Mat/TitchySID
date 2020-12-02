@@ -22,9 +22,9 @@ namespace sidsample_csharp {
         const string PauseText = "Pause";
         const string ResumeText = "Resume";
 
-        const int SPECWIDTH = 368;	// display width
-        const int SPECHEIGHT = 127;	// height (changing requires palette adjustments too)
-        const int BANDS = 28;		// number of equalizer bars
+        const int SPECWIDTH = 368;  // display width
+        const int SPECHEIGHT = 127; // height (changing requires palette adjustments too)
+        const int BANDS = 28;       // number of equalizer bars
 
         byte g_subsong;
         bool g_running;

@@ -74,7 +74,7 @@ Global fft:Float[1024]
 
 Global BitmapInfo256Buffer:Byte Ptr
 
-Function HexPad$(val:Long,digits=8)
+Function HexPad$(val:Long, digits=8)
     Local buf:Short[digits]
     
     For Local k = digits - 1 To 0 Step -1
@@ -91,14 +91,14 @@ Function OpenSID()
     Local memory:TBank
     Local filebuffer:Byte Ptr
     Local length
-	Local filter:String
-	Local filename:String
+    Local filter:String
+    Local filename:String
 
-    filter$="SID Files:sid"
-    filename$=RequestFile("Choose SID File", filter$)
+    filter = "SID Files:sid"
+    filename = RequestFile("Choose SID File", filter)
 
-    If filename$
-        memory = LoadBank(filename$)
+    If filename
+        memory = LoadBank(filename)
         length = memory.Size()
         filebuffer = LockBank(memory)
 
@@ -106,7 +106,7 @@ Function OpenSID()
         SIDOpen(filebuffer, length, SID_MEMORY, SID_DEFAULT, 0)
         GetProps(sid_props)
         
-		g_paused = 0;
+        g_paused = 0;
         g_running = 1
         g_subsong = sid_props.default_song
         UpdateSIDInfo()
@@ -190,8 +190,8 @@ End Function
 Function DlgProc:Int(hWnd, uMsg, wParam, lParam) "Win32"
     Local pandr:String
     Local cstr:Byte Ptr
-	Local a:Int
-	Local memptr:Byte Ptr
+    Local a:Int
+    Local memptr:Byte Ptr
 
     Select uMsg
         Case WM_INITDIALOG
@@ -224,10 +224,10 @@ Function DlgProc:Int(hWnd, uMsg, wParam, lParam) "Win32"
                 bmiHeader.biClrUsed = 256
                 bmiHeader.biClrImportant = 256
 
-				' Create each element of the RGBQUAD array
-				For a = 0 To 255
-					bmiColours[a] = New RGBQUAD
-				Next
+                ' Create each element of the RGBQUAD array
+                For a = 0 To 255
+                    bmiColours[a] = New RGBQUAD
+                Next
 
                 ' setup palette
                 For a = 1 To 127
@@ -246,23 +246,23 @@ Function DlgProc:Int(hWnd, uMsg, wParam, lParam) "Win32"
                     bmiColours[128 + 96 + a].rgbGreen = 255
                     bmiColours[128 + 96 + a].rgbBlue = 8 * a
                 Next
-				
-				' Now we need to create a flat buffer holding the bitmap header followed by the RGBQUAD array
-				' This gives us a BITMAPINFO256 structure to pass to the SetDIBitsToDevice Win32 API
-				BitmapInfo256Buffer = MemAlloc(SizeOf(BITMAPINFOHEADER) + (SizeOf(RGBQUAD) * 256))
+                
+                ' Now we need to create a flat buffer holding the bitmap header followed by the RGBQUAD array
+                ' This gives us a BITMAPINFO256 structure to pass to the SetDIBitsToDevice Win32 API
+                BitmapInfo256Buffer = MemAlloc(SizeOf(BITMAPINFOHEADER) + (SizeOf(RGBQUAD) * 256))
 
-				MemCopy(BitmapInfo256Buffer, Varptr(bmiHeader.biSize), SizeOf(BITMAPINFOHEADER))
-				
-				memptr = BitmapInfo256Buffer + SizeOf(BITMAPINFOHEADER)
-				
-				For a = 0 To 255
-					memptr[0] = bmiColours[a].rgbBlue
-					memptr[1] = bmiColours[a].rgbGreen
-					memptr[2] = bmiColours[a].rgbRed
-					' We don't need to copy the rgbReserved byte as it's zero
-					
-					memptr = memptr + SizeOf(RGBQUAD)
-				Next
+                MemCopy(BitmapInfo256Buffer, Varptr(bmiHeader.biSize), SizeOf(BITMAPINFOHEADER))
+                
+                memptr = BitmapInfo256Buffer + SizeOf(BITMAPINFOHEADER)
+                
+                For a = 0 To 255
+                    memptr[0] = bmiColours[a].rgbBlue
+                    memptr[1] = bmiColours[a].rgbGreen
+                    memptr[2] = bmiColours[a].rgbRed
+                    ' We don't need to copy the rgbReserved byte as it's zero
+                    
+                    memptr = memptr + SizeOf(RGBQUAD)
+                Next
 
                 ' setup update timer (50hz)
                 mmtimer = timeSetEvent(20, 5, UpdateSpectrum, 0, TIME_PERIODIC)
@@ -279,7 +279,7 @@ Function DlgProc:Int(hWnd, uMsg, wParam, lParam) "Win32"
                 Case IDC_OPEN
                     ' Open a SID file
                     OpenSID()
-					SetWindowTextA(GetDlgItem(hWnd, IDC_PAUSE_RESUME), PauseText)
+                    SetWindowTextA(GetDlgItem(hWnd, IDC_PAUSE_RESUME), PauseText)
 
                 Case IDC_PLAY
                     ' Start the SID music playing
@@ -342,14 +342,14 @@ Function DlgProc:Int(hWnd, uMsg, wParam, lParam) "Win32"
             SendMessageA(hWnd, WM_NCLBUTTONDOWN, HTCAPTION, lParam)
 
         Case WM_CLOSE
-        	' Kill the spectrum timer
-			timeKillEvent(mmtimer)
+            ' Kill the spectrum timer
+            timeKillEvent(mmtimer)
 
             ' Close the SID library
             SIDClose()
 
-			' Free up the BITMAPINFO256 memory buffer used for the spectrum
-			MemFree(BitmapInfo256Buffer)
+            ' Free up the BITMAPINFO256 memory buffer used for the spectrum
+            MemFree(BitmapInfo256Buffer)
 
             EndDialog(hWnd, 0)
 

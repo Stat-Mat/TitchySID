@@ -259,8 +259,8 @@ Procedure WndProc(hWnd, message, wParam, lParam)
             SendMessage_(hWnd, #WM_NCLBUTTONDOWN, #HTCAPTION, lParam)
 
         Case #WM_CLOSE
-        	; Kill the spectrum timer
-			timeKillEvent_(mmtimer)
+            ; Kill the spectrum timer
+            timeKillEvent_(mmtimer)
         
             ; Close the SID library
             SIDClose()

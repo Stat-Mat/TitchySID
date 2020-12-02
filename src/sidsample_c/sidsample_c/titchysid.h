@@ -95,8 +95,8 @@ typedef struct {
 */
 
 int __stdcall SIDOpen (unsigned long res_mem, unsigned long mem_len,
-						unsigned char mode, unsigned char options,
-						unsigned char subsong);
+                        unsigned char mode, unsigned char options,
+                        unsigned char subsong);
 
 /*
 ===================================================================
@@ -162,7 +162,7 @@ int __stdcall SIDResume (void);
  SIDChangeSong()
 
  Purpose : Change to another sub song in the currently playing SID
-		   file
+           file
 
  Parameter : New subsong ID (0 based)
 ===================================================================
